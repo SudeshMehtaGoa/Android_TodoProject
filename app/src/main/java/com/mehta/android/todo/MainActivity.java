@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity
     public void onItemClick(AdapterView<?> parent, View view, int position,
                             long id) {
 
-        String member_name = rowItems.get(position).gettodo_Date();
+        String member_name = rowItems.get(position).getToDoDate();
         Toast.makeText(getApplicationContext(), "" + member_name,
                 Toast.LENGTH_SHORT).show();
     }

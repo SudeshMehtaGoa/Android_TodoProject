@@ -2,49 +2,49 @@ package com.mehta.android.todo;
 
 public class RowItem {
 
-	private String todo_Date;
-	private String todo_Name;
-	private String todo_Description;
-	private int todo_Status;
+	private String toDoDate;
+	private String toDoName;
+	private String toDoDescription;
+	private int toDoStatus;
 
-	public RowItem(String todo_Date, String todo_Name, String todo_Description , int todo_Status) {
+	public RowItem(String toDoDate, String toDoName, String toDoDescription , int toDoStatus) {
 
-		this.todo_Date = todo_Date;
-		this.todo_Name = todo_Name;
-		this.todo_Description = todo_Description;
-		this.todo_Status = todo_Status;
+		this.toDoDate = toDoDate;
+		this.toDoName = toDoName;
+		this.toDoDescription = toDoDescription;
+		this.toDoStatus = toDoStatus;
 	}
 
-	public String gettodo_Date() {
-		return todo_Date;
+	public String getToDoDate() {
+		return toDoDate;
 	}
 
-	public void settodo_Date(String todo_Date) {
-		this.todo_Date = todo_Date;
+	public void setToDoDate(String toDoDate) {
+		this.toDoDate = toDoDate;
 	}
 
-	public String gettodo_Name() {
-		return todo_Name;
+	public String getToDoName() {
+		return toDoName;
 	}
 
-	public void settodo_Name(String todo_Name) {
-		this.todo_Name = todo_Name;
+	public void setToDoName(String toDoName) {
+		this.toDoName = toDoName;
 	}
 
-	public String gettodo_Description() {
-		return todo_Description;
+	public String getToDoDescription() {
+		return toDoDescription;
 	}
 
-	public void settodo_Description(String todo_Description) {
-		this.todo_Description = todo_Description;
+	public void setToDoDescription(String toDoDescription) {
+		this.toDoDescription = toDoDescription;
 	}
 
-	public int gettodo_Status() {
-		return todo_Status;
+	public int getToDoStatus() {
+		return toDoStatus;
 	}
 
-	public void settodo_Status(int todo_Status) {
-		this.todo_Status = todo_Status;
+	public void setToDoStatus(int toDoStatus) {
+		this.toDoStatus = toDoStatus;
 	}
 
 

@@ -38,11 +38,11 @@ public class CustomAdapter extends BaseAdapter {
 
 	/* private view holder class */
 	private class ViewHolder {
-		TextView todo_Date;
-		TextView todo_Name;
-		TextView todo_Description;
-		TextView todo_Date_2;
-		ImageView todo_Status;
+		TextView toDoTitleDate;
+		TextView toDoName;
+		TextView toDoDescription;
+		TextView toDoDate;
+		ImageView toDoStatus;
 	}
 
 	@Override
@@ -58,34 +58,35 @@ public class CustomAdapter extends BaseAdapter {
 
 			holder = new ViewHolder();
 
-			holder.todo_Date = (TextView) convertView
-					.findViewById(R.id.todo_Date);
+			holder.toDoTitleDate = (TextView) convertView
+					.findViewById(R.id.toDoTitleDate);
 
-			holder.todo_Name = (TextView) convertView
-					.findViewById(R.id.todo_Name);
+			holder.toDoName = (TextView) convertView
+					.findViewById(R.id.toDoName);
 
-			holder.todo_Description = (TextView) convertView
-					.findViewById(R.id.todo_Description);
+			holder.toDoDescription = (TextView) convertView
+					.findViewById(R.id.toDoDescription);
 
-			holder.todo_Date_2 = (TextView) convertView
-					.findViewById(R.id.todo_Date_2);
+			holder.toDoDate = (TextView) convertView
+					.findViewById(R.id.toDoDate);
 
-			holder.todo_Status = (ImageView) convertView
-					.findViewById(R.id.todo_Status);
+			holder.toDoStatus = (ImageView) convertView
+					.findViewById(R.id.toDoStatus);
 
 
 
 			RowItem row_pos = rowItems.get(position);
 
 
-			holder.todo_Date.setText(row_pos.gettodo_Date());
-			holder.todo_Name.setText(row_pos.gettodo_Name());
-			holder.todo_Description.setText(row_pos.gettodo_Description());
-			holder.todo_Date_2.setText(row_pos.gettodo_Date());
-			holder.todo_Status.setImageResource(row_pos.gettodo_Status());
+			holder.toDoTitleDate.setText(row_pos.getToDoDate());
+			holder.toDoName.setText(row_pos.getToDoName());
+			holder.toDoDescription.setText(row_pos.getToDoDescription());
+			holder.toDoDate.setText(row_pos.getToDoDate());
+			holder.toDoStatus.setImageResource(row_pos.getToDoStatus());
 
 
 			convertView.setTag(holder);
+
 
 		} else {
 			holder = (ViewHolder) convertView.getTag();

@@ -21,12 +21,12 @@
 
     <!-- ToDo Name -->
     <string-array name="todo_Name">
-        <item>Pay Insurance</item>
-        <item>WC meeting</item>
-        <item>Europa park</item>
-        <item>Dance Class</item>
-        <item>Goa Visit</item>
-        <item>Kerala Visit</item>
+        <item>Pay Insurance1</item>
+        <item>WC meeting1</item>
+        <item>Europa park1</item>
+        <item>Dance Class1</item>
+        <item>Goa Visit1</item>
+        <item>Kerala Visit1</item>
     </string-array>
 
     <!-- ToDo Description -->

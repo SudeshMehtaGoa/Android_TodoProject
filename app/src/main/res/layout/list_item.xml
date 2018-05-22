@@ -5,7 +5,7 @@
     android:padding="10dp" >
 
     <TextView
-        android:id="@+id/todo_Date"
+        android:id="@+id/toDoTitleDate"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -17,34 +17,34 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/todo_Name"
+        android:id="@+id/toDoName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/todo_Date"
+        android:layout_below="@+id/toDoTitleDate"
         android:paddingLeft="10dp"
         android:text="Pay Bill"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/todo_Description"
+        android:id="@+id/toDoDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/todo_Name"
+        android:layout_below="@+id/toDoName"
         android:paddingLeft="10dp"
         android:text="Pay Bill before june month"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/todo_Date_2"
+        android:id="@+id/toDoDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/todo_Description"
+        android:layout_below="@+id/toDoDescription"
         android:paddingLeft="10dp"
         android:text="11/12/2018"
         android:textSize="20sp" />
 
     <ImageView
-        android:id="@+id/todo_Status"
+        android:id="@+id/toDoStatus"
         android:layout_width="40dp"
         android:layout_height="38dp"
         android:layout_alignParentEnd="true"
