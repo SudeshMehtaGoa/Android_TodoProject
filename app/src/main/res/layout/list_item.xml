@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="10dp" >
+
+    <TextView
+        android:id="@+id/todo_Date"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorTextBackground"
+        android:paddingBottom="10dp"
+        android:text="11/12/2018"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/todo_Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/todo_Date"
+        android:paddingLeft="10dp"
+        android:text="Pay Bill"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/todo_Description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/todo_Name"
+        android:paddingLeft="10dp"
+        android:text="Pay Bill before june month"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/todo_Date_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/todo_Description"
+        android:paddingLeft="10dp"
+        android:text="11/12/2018"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/todo_Status"
+        android:layout_width="40dp"
+        android:layout_height="38dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="17dp"
+        android:layout_marginTop="58dp"
+        android:contentDescription="todoStatus"
+        android:src="@drawable/incomplete"/>
+
+
+</RelativeLayout>
