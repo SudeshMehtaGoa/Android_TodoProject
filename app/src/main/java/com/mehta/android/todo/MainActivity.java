@@ -124,12 +124,13 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_AddNew ) {
-            Toast.makeText(this, "Add New", Toast.LENGTH_SHORT).show();
+            // Add New Diaglog box
             OpenDiaglog();
             return true;
         }
         else if (id == R.id.action_TaskList ) {
 
+            // show list of complete task or incomplete task and toggle between complete and incomplete task phase
             if (blnCompleteFlag)       {
                 blnCompleteFlag = false;
                 this.ToDoMenu.getItem(1).setIcon(R.drawable.complete);
@@ -151,6 +152,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void OpenDiaglog() {
+
         todoDiaglog todo_Dialog = new todoDiaglog();
         todo_Dialog.show(getSupportFragmentManager(),"ToDo Diaglog");
 
@@ -170,16 +172,15 @@ public class MainActivity extends AppCompatActivity
         try {
 
             if(blnCompleteFlag){
-
+                // When Complete tasks are visible then delete record on long click and refresh list
                 dbHelper.deleteRecords(Constants.ToDo_Table,Constants.ToDo_ID + " = " + ToDoAllData.get(position).getToDoID(),null);
                 ToDoAllData = dbHelper.getAllToDoRecords(true);
                 CustomAdapter adapter = new CustomAdapter(this, ToDoAllData);
                 ToDoListView.setAdapter(adapter);
                 return true;
-
             }
             else{
-
+                // When inComplete tasks are visible then change status as complete on long click and refresh list
                 ContentValues vals = new ContentValues();
                 vals.put(Constants.ToDo_Status,1);
                 dbHelper.updateRecords(Constants.ToDo_Table, vals,Constants.ToDo_ID + " = " + ToDoAllData.get(position).getToDoID(), null);
@@ -209,6 +210,7 @@ public class MainActivity extends AppCompatActivity
     public void addNewTodo(String strToDoAddName, String strToDoAddDescription) {
         try{
 
+            // Add New record
             ContentValues vals = new ContentValues();
             vals.put(Constants.ToDo_DATE, "2018-05-24 10:00:00.000");
             vals.put(Constants.ToDo_Name, strToDoAddName);
@@ -216,6 +218,7 @@ public class MainActivity extends AppCompatActivity
             vals.put(Constants.ToDo_Status,0);
             dbHelper.insertContentVals(Constants.ToDo_Table, vals);
 
+            // whenever new record is added show list of incomplete task so that even new record is visible
             blnCompleteFlag = false;
             this.ToDoMenu.getItem(1).setIcon(R.drawable.complete);
             ToDoAllData = dbHelper.getAllToDoRecords(false);
@@ -227,6 +230,5 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
-
 
 }
