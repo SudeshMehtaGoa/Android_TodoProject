@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import com.mehta.android.todo.Database.DBHelper;
 import com.mehta.android.todo.model.ToDoData;
@@ -153,7 +155,10 @@ public class MainActivity extends AppCompatActivity
 
     public void OpenDiaglog() {
 
-        todoDiaglog todo_Dialog = todoDiaglog.newInstance("New ToDo", -1,"","");
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd ");
+
+        todoDiaglog todo_Dialog = todoDiaglog.newInstance("New ToDo", -1,"","",mdformat.format(calendar.getTime()));
         todo_Dialog.show(getSupportFragmentManager(),"ToDo Diaglog");
 
     }
@@ -161,7 +166,8 @@ public class MainActivity extends AppCompatActivity
     public void OpenDiaglogToModify(int position) {
 
         try{
-            todoDiaglog todo_Dialog = todoDiaglog.newInstance("Updtae ToDo", ToDoAllData.get(position).getToDoID(), ToDoAllData.get(position).getToDoName(),ToDoAllData.get(position).getToDoDescription());
+            todoDiaglog todo_Dialog = todoDiaglog.newInstance("Updtae ToDo", ToDoAllData.get(position).getToDoID(),
+                    ToDoAllData.get(position).getToDoName(),ToDoAllData.get(position).getToDoDescription(), ToDoAllData.get(position).getToDoDate());
             todo_Dialog.show(getSupportFragmentManager(),"ToDo Diaglog");
 
         }
@@ -216,12 +222,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void insertOrUpdateTodo(int intToDoID, String strToDoAddName, String strToDoAddDescription) {
+    public void insertOrUpdateTodo(int intToDoID, String strToDoAddName, String strToDoAddDescription , String strToDoAddDate) {
         try{
             if(intToDoID==-1) {
                 // Add New record
                 ContentValues vals = new ContentValues();
-                vals.put(Constants.ToDo_DATE, "2018-05-24 10:00:00.000");
+                vals.put(Constants.ToDo_DATE, strToDoAddDate);
                 vals.put(Constants.ToDo_Name, strToDoAddName);
                 vals.put(Constants.ToDo_Description, strToDoAddDescription);
                 vals.put(Constants.ToDo_Status, 0);
@@ -236,6 +242,7 @@ public class MainActivity extends AppCompatActivity
             }
             else {
                 ContentValues vals = new ContentValues();
+                vals.put(Constants.ToDo_DATE, strToDoAddDate);
                 vals.put(Constants.ToDo_Name,strToDoAddName);
                 vals.put(Constants.ToDo_Description,strToDoAddDescription);
                 dbHelper.updateRecords(Constants.ToDo_Table, vals,Constants.ToDo_ID + " = " + intToDoID, null);

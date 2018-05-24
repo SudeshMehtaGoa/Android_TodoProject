@@ -8,22 +8,28 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CalendarView;
 import android.widget.EditText;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.Date;
 
 
 public class todoDiaglog extends AppCompatDialogFragment {
 
     private EditText editToDoName;
     private EditText editTodoDescription;
+    private CalendarView editToDoDate;
     private todoDiaglogListner todoListner;
 
-    public static todoDiaglog newInstance(String strDialogTitle, int intToDoID, String strToDoName, String strToDoDescription){
+    public static todoDiaglog newInstance(String strDialogTitle, int intToDoID, String strToDoName, String strToDoDescription, String strToDoDate){
         todoDiaglog dlg = new todoDiaglog();
         Bundle args = new Bundle();
         args.putString("strDialogTitle",strDialogTitle);
         args.putInt("intToDoID",intToDoID);
         args.putString("strToDoName",strToDoName);
         args.putString("strToDoDescription",strToDoDescription);
+        args.putString("strToDoDate",strToDoDate);
         dlg.setArguments(args);
         return dlg;
     }
@@ -50,16 +56,32 @@ public class todoDiaglog extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         String strToDoAddName = editToDoName.getText().toString();
                         String strToDoAddDescription = editTodoDescription.getText().toString();
-                        todoListner.insertOrUpdateTodo(getArguments().getInt("intToDoID"),strToDoAddName,strToDoAddDescription);
+
+                        todoListner.insertOrUpdateTodo(getArguments().getInt("intToDoID"),strToDoAddName,strToDoAddDescription ,
+                                new SimpleDateFormat("yyyy-MM-dd").format(editToDoDate.getDate()) );
                     }
                 });
 
 
         editToDoName = view.findViewById(R.id.toDoAddName);
         editTodoDescription = view.findViewById(R.id.toDoAddDescription);
+        editToDoDate = view.findViewById(R.id.toDoAddDate);
+
 
         editToDoName.setText(getArguments().getString("strToDoName"));
         editTodoDescription.setText(getArguments().getString("strToDoDescription"));
+
+        long taskDate=0;
+
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = sdf.parse(getArguments().getString("strToDoDate"));
+            taskDate = date.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        editToDoDate.setDate(taskDate);
 
         return builder.create();
     }
@@ -79,6 +101,6 @@ public class todoDiaglog extends AppCompatDialogFragment {
 
     public interface todoDiaglogListner {
 
-        void insertOrUpdateTodo(int intToDoID, String strToDoAddName, String strToDoAddDescription);
+        void insertOrUpdateTodo(int intToDoID, String strToDoAddName, String strToDoAddDescription , String strToDoAddDate);
     }
 }

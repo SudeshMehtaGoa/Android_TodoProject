@@ -8,16 +8,34 @@
         android:id="@+id/toDoAddName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="Task Name" />
+        android:layout_centerHorizontal="true"
+        android:textSize="12sp"
+        android:hint="Task Name"/>
 
     <EditText
         android:id="@+id/toDoAddDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toDoAddName"
-        android:inputType="textPersonName"
+        android:layout_centerHorizontal="true"
+        android:textSize="12sp"
+        android:layout_below="@+id/toDoAddName"
         android:hint="Task Description" />
 
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:textSize="12sp"
+        android:layout_below="@+id/toDoAddDescription"
+        android:text="Task Due Date" />
+
+    <CalendarView
+        android:id="@+id/toDoAddDate"
+        android:layout_width="wrap_content"
+        android:layout_height="301dp"
+        android:layout_below="@+id/editText"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
