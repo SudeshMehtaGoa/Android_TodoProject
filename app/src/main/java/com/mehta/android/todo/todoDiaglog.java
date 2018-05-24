@@ -17,6 +17,17 @@ public class todoDiaglog extends AppCompatDialogFragment {
     private EditText editTodoDescription;
     private todoDiaglogListner todoListner;
 
+    public static todoDiaglog newInstance(String strDialogTitle, int intToDoID, String strToDoName, String strToDoDescription){
+        todoDiaglog dlg = new todoDiaglog();
+        Bundle args = new Bundle();
+        args.putString("strDialogTitle",strDialogTitle);
+        args.putInt("intToDoID",intToDoID);
+        args.putString("strToDoName",strToDoName);
+        args.putString("strToDoDescription",strToDoDescription);
+        dlg.setArguments(args);
+        return dlg;
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
@@ -27,7 +38,7 @@ public class todoDiaglog extends AppCompatDialogFragment {
         View view = inflater.inflate(R.layout.diaglog_newtodo,null);
 
         builder.setView(view)
-                .setTitle("New ToDo")
+                .setTitle(getArguments().getString("strDialogTitle"))
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -39,7 +50,7 @@ public class todoDiaglog extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         String strToDoAddName = editToDoName.getText().toString();
                         String strToDoAddDescription = editTodoDescription.getText().toString();
-                        todoListner.addNewTodo(strToDoAddName,strToDoAddDescription);
+                        todoListner.insertOrUpdateTodo(getArguments().getInt("intToDoID"),strToDoAddName,strToDoAddDescription);
                     }
                 });
 
@@ -47,8 +58,12 @@ public class todoDiaglog extends AppCompatDialogFragment {
         editToDoName = view.findViewById(R.id.toDoAddName);
         editTodoDescription = view.findViewById(R.id.toDoAddDescription);
 
+        editToDoName.setText(getArguments().getString("strToDoName"));
+        editTodoDescription.setText(getArguments().getString("strToDoDescription"));
+
         return builder.create();
     }
+
 
     @Override
     public void onAttach(Context context) {
@@ -64,6 +79,6 @@ public class todoDiaglog extends AppCompatDialogFragment {
 
     public interface todoDiaglogListner {
 
-        void addNewTodo(String strToDoAddName, String strToDoAddDescription);
+        void insertOrUpdateTodo(int intToDoID, String strToDoAddName, String strToDoAddDescription);
     }
 }

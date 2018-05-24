@@ -153,28 +153,37 @@ public class MainActivity extends AppCompatActivity
 
     public void OpenDiaglog() {
 
-        todoDiaglog todo_Dialog = new todoDiaglog();
+        todoDiaglog todo_Dialog = todoDiaglog.newInstance("New ToDo", -1,"","");
         todo_Dialog.show(getSupportFragmentManager(),"ToDo Diaglog");
 
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position,
-                            long id) {
+    public void OpenDiaglogToModify(int position) {
 
-        String member_name = ToDoAllData.get(position).getToDoDate();
-        Toast.makeText(getApplicationContext(), "" + member_name,
-                Toast.LENGTH_SHORT).show();
+        try{
+            todoDiaglog todo_Dialog = todoDiaglog.newInstance("Updtae ToDo", ToDoAllData.get(position).getToDoID(), ToDoAllData.get(position).getToDoName(),ToDoAllData.get(position).getToDoDescription());
+            todo_Dialog.show(getSupportFragmentManager(),"ToDo Diaglog");
+
+        }
+        catch(Exception ex){
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
+        OpenDiaglogToModify(position);
     }
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         try {
 
+
             if(blnCompleteFlag){
                 // When Complete tasks are visible then delete record on long click and refresh list
                 dbHelper.deleteRecords(Constants.ToDo_Table,Constants.ToDo_ID + " = " + ToDoAllData.get(position).getToDoID(),null);
-                ToDoAllData = dbHelper.getAllToDoRecords(true);
+                ToDoAllData = dbHelper.getAllToDoRecords(blnCompleteFlag);
                 CustomAdapter adapter = new CustomAdapter(this, ToDoAllData);
                 ToDoListView.setAdapter(adapter);
                 return true;
@@ -184,7 +193,7 @@ public class MainActivity extends AppCompatActivity
                 ContentValues vals = new ContentValues();
                 vals.put(Constants.ToDo_Status,1);
                 dbHelper.updateRecords(Constants.ToDo_Table, vals,Constants.ToDo_ID + " = " + ToDoAllData.get(position).getToDoID(), null);
-                ToDoAllData = dbHelper.getAllToDoRecords(false);
+                ToDoAllData = dbHelper.getAllToDoRecords(blnCompleteFlag);
                 CustomAdapter adapter = new CustomAdapter(this, ToDoAllData);
                 ToDoListView.setAdapter(adapter);
                 return true;
@@ -207,28 +216,36 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void addNewTodo(String strToDoAddName, String strToDoAddDescription) {
+    public void insertOrUpdateTodo(int intToDoID, String strToDoAddName, String strToDoAddDescription) {
         try{
+            if(intToDoID==-1) {
+                // Add New record
+                ContentValues vals = new ContentValues();
+                vals.put(Constants.ToDo_DATE, "2018-05-24 10:00:00.000");
+                vals.put(Constants.ToDo_Name, strToDoAddName);
+                vals.put(Constants.ToDo_Description, strToDoAddDescription);
+                vals.put(Constants.ToDo_Status, 0);
+                dbHelper.insertContentVals(Constants.ToDo_Table, vals);
 
-            // Add New record
-            ContentValues vals = new ContentValues();
-            vals.put(Constants.ToDo_DATE, "2018-05-24 10:00:00.000");
-            vals.put(Constants.ToDo_Name, strToDoAddName);
-            vals.put(Constants.ToDo_Description, strToDoAddDescription);
-            vals.put(Constants.ToDo_Status,0);
-            dbHelper.insertContentVals(Constants.ToDo_Table, vals);
-
-            // whenever new record is added show list of incomplete task so that even new record is visible
-            blnCompleteFlag = false;
-            this.ToDoMenu.getItem(1).setIcon(R.drawable.complete);
-            ToDoAllData = dbHelper.getAllToDoRecords(false);
-            CustomAdapter adapter = new CustomAdapter(this, ToDoAllData);
-            ToDoListView.setAdapter(adapter);
-
+                // whenever new record is added show list of incomplete task so that even new record is visible
+                blnCompleteFlag = false;
+                this.ToDoMenu.getItem(1).setIcon(R.drawable.complete);
+                ToDoAllData = dbHelper.getAllToDoRecords(false);
+                CustomAdapter adapter = new CustomAdapter(this, ToDoAllData);
+                ToDoListView.setAdapter(adapter);
+            }
+            else {
+                ContentValues vals = new ContentValues();
+                vals.put(Constants.ToDo_Name,strToDoAddName);
+                vals.put(Constants.ToDo_Description,strToDoAddDescription);
+                dbHelper.updateRecords(Constants.ToDo_Table, vals,Constants.ToDo_ID + " = " + intToDoID, null);
+                ToDoAllData = dbHelper.getAllToDoRecords(blnCompleteFlag);
+                CustomAdapter adapter = new CustomAdapter(this, ToDoAllData);
+                ToDoListView.setAdapter(adapter);
+            }
         }
         catch(Exception ex){
             Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
-
 }

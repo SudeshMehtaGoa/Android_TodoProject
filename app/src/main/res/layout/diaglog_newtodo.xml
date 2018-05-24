@@ -4,22 +4,10 @@
     android:layout_height="fill_parent"
     android:padding="20dp" >
 
-    <TextView
-        android:id="@+id/toDoAddTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/colorTextBackground"
-        android:text="Enter New Task"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
     <EditText
         android:id="@+id/toDoAddName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toDoAddTitle"
         android:inputType="textPersonName"
         android:hint="Task Name" />
 
