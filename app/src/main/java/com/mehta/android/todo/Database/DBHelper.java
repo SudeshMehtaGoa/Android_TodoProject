@@ -172,10 +172,10 @@ public class DBHelper {
         // select ToDo query
         String query;
         if(blnTaskComplete) {
-            query = "SELECT ToDoID,  ToDoName , ToDoDescription , date(ToDoDate), ToDoStatus FROM " + Constants.ToDo_Table + " WHERE ToDoStatus = 1 ORDER BY " + Constants.ToDo_DATE + " DESC ";
+            query = "SELECT ToDoID,  ToDoName , ToDoDescription , date(ToDoDate), ToDoStatus FROM " + Constants.ToDo_Table + " WHERE ToDoStatus = 1 ORDER BY " + Constants.ToDo_DATE + " ASC ";
         }
         else{
-            query = "SELECT ToDoID,  ToDoName , ToDoDescription , date(ToDoDate), ToDoStatus FROM " + Constants.ToDo_Table + " WHERE ToDoStatus = 0 ORDER BY " + Constants.ToDo_DATE + " DESC ";
+            query = "SELECT ToDoID,  ToDoName , ToDoDescription , date(ToDoDate), ToDoStatus FROM " + Constants.ToDo_Table + " WHERE ToDoStatus = 0 ORDER BY " + Constants.ToDo_DATE + " ASC ";
         }
 
 
