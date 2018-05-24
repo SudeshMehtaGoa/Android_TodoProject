@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity
     public void OpenDiaglog() {
 
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd ");
+        SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd");
 
         todoDiaglog todo_Dialog = todoDiaglog.newInstance("New ToDo", -1,"","",mdformat.format(calendar.getTime()));
         todo_Dialog.show(getSupportFragmentManager(),"ToDo Diaglog");
@@ -224,6 +224,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void insertOrUpdateTodo(int intToDoID, String strToDoAddName, String strToDoAddDescription , String strToDoAddDate) {
         try{
+            Toast.makeText(this , strToDoAddDate, Toast.LENGTH_LONG).show();
             if(intToDoID==-1) {
                 // Add New record
                 ContentValues vals = new ContentValues();

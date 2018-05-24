@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.Date;
@@ -21,6 +23,7 @@ public class todoDiaglog extends AppCompatDialogFragment {
     private EditText editTodoDescription;
     private CalendarView editToDoDate;
     private todoDiaglogListner todoListner;
+    private String strDateCalender;
 
     public static todoDiaglog newInstance(String strDialogTitle, int intToDoID, String strToDoName, String strToDoDescription, String strToDoDate){
         todoDiaglog dlg = new todoDiaglog();
@@ -56,9 +59,8 @@ public class todoDiaglog extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         String strToDoAddName = editToDoName.getText().toString();
                         String strToDoAddDescription = editTodoDescription.getText().toString();
-
                         todoListner.insertOrUpdateTodo(getArguments().getInt("intToDoID"),strToDoAddName,strToDoAddDescription ,
-                                new SimpleDateFormat("yyyy-MM-dd").format(editToDoDate.getDate()) );
+                                strDateCalender );
                     }
                 });
 
@@ -67,6 +69,14 @@ public class todoDiaglog extends AppCompatDialogFragment {
         editTodoDescription = view.findViewById(R.id.toDoAddDescription);
         editToDoDate = view.findViewById(R.id.toDoAddDate);
 
+        editToDoDate.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                // display the selected date by using a toast
+                month=month+1;
+                strDateCalender = year + "-" + (((month < 10) ? "0" : "") + month) + "-" + (((dayOfMonth < 10) ? "0" : "") + dayOfMonth);
+            }
+        });
 
         editToDoName.setText(getArguments().getString("strToDoName"));
         editTodoDescription.setText(getArguments().getString("strToDoDescription"));
@@ -75,7 +85,8 @@ public class todoDiaglog extends AppCompatDialogFragment {
 
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = sdf.parse(getArguments().getString("strToDoDate"));
+            strDateCalender = getArguments().getString("strToDoDate");
+            Date date = sdf.parse(strDateCalender);
             taskDate = date.getTime();
         } catch (ParseException e) {
             e.printStackTrace();

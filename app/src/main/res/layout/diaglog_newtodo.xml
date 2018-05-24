@@ -34,7 +34,7 @@
     <CalendarView
         android:id="@+id/toDoAddDate"
         android:layout_width="wrap_content"
-        android:layout_height="301dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/editText"
         android:layout_centerHorizontal="true" />
 
