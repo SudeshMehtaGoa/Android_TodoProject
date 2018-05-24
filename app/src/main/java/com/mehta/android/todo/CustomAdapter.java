@@ -84,7 +84,10 @@ public class CustomAdapter extends BaseAdapter {
 			holder.toDoName.setText(row_pos.getToDoName());
 			holder.toDoDescription.setText(row_pos.getToDoDescription());
 			holder.toDoDate.setText(row_pos.getToDoDate());
-			holder.toDoStatus.setImageResource(row_pos.getToDoStatus());
+			if(row_pos.getToDoStatus()==1)
+				holder.toDoStatus.setImageResource(R.drawable.complete);
+			else
+				holder.toDoStatus.setImageResource(R.drawable.incomplete);
 
 
 			convertView.setTag(holder);

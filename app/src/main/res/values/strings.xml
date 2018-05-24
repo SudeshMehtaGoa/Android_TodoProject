@@ -11,12 +11,9 @@
 
     <!-- ToDo Date -->
     <string-array name="todo_Date">
-        <item>10.06.2018</item>
-        <item>15.06.2018</item>
-        <item>30.06.2018</item>
-        <item>25.07.2018</item>
-        <item>15.08.2018</item>
-        <item>30.08.2018</item>
+        <item>2018-05-30 10:00:00.000</item>
+        <item>2018-04-30 10:00:00.000</item>
+        <item>2018-10-30 10:00:00.000</item>
     </string-array>
 
     <!-- ToDo Name -->
@@ -24,9 +21,6 @@
         <item>Pay Insurance1</item>
         <item>WC meeting1</item>
         <item>Europa park1</item>
-        <item>Dance Class1</item>
-        <item>Goa Visit1</item>
-        <item>Kerala Visit1</item>
     </string-array>
 
     <!-- ToDo Description -->
@@ -34,19 +28,13 @@
         <item>Pay Insurance 1</item>
         <item>WC meeting 2</item>
         <item>Europa park 3</item>
-        <item>Dance Class 4</item>
-        <item>Goa Visit 5</item>
-        <item>Kerala Visit 6</item>
     </string-array>
 
     <!-- Pictures -->
     <array name="todo_Status">
-        <item>@drawable/complete</item>
-        <item>@drawable/incomplete</item>
-        <item>@drawable/complete</item>
-        <item>@drawable/incomplete</item>
-        <item>@drawable/complete</item>
-        <item>@drawable/incomplete</item>
+        <item>0</item>
+        <item>1</item>
+        <item>0</item>
     </array>
 
 </resources>

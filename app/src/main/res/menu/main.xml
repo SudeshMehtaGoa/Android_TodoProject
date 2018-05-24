@@ -11,10 +11,10 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_TaskComplete"
+        android:id="@+id/action_TaskList"
         android:orderInCategory="100"
         android:title="@string/action_settings"
-        android:icon="@drawable/incomplete"
+        android:icon="@drawable/complete"
         app:showAsAction="always" />
 
 

@@ -24,7 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements  AdapterView.OnItemClickListener , todoDiaglog.todoDiaglogListner {
+        implements  AdapterView.OnItemClickListener ,
+        AdapterView.OnItemLongClickListener,
+        todoDiaglog.todoDiaglogListner {
     //NavigationView.OnNavigationItemSelectedListener ,
 
 
@@ -35,26 +37,33 @@ public class MainActivity extends AppCompatActivity
     String[] todo_Date;
     String[] todo_Name;
     String[] todo_Description;
-    TypedArray todo_Status;
+    int[] todo_Status;
+    //TypedArray todo_Status;
 
     ListView ToDoListView;
+    Menu ToDoMenu;
+
+    boolean blnCompleteFlag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        // Add Toolbar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         try {
+
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+
+            // Add Toolbar
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+
+
 
             todo_Date = getResources().getStringArray(R.array.todo_Date);
             todo_Name = getResources().getStringArray(R.array.todo_Name);
             todo_Description = getResources().getStringArray(R.array.todo_Description);
-            todo_Status = getResources().obtainTypedArray(R.array.todo_Status);
+            todo_Status = getResources().getIntArray(R.array.todo_Status);
+            //      todo_Status = getResources().obtainTypedArray(R.array.todo_Status);
 
             dbHelper = CommonUtilities.getDBObject(this);
 
@@ -66,9 +75,9 @@ public class MainActivity extends AppCompatActivity
 
             ToDoListView = findViewById(R.id.todo_List);
             ToDoListView.setOnItemClickListener(this);
+            ToDoListView.setOnItemLongClickListener(this);
 
-            ToDoAllData = dbHelper.getAllToDoRecords();
-
+            ToDoAllData = dbHelper.getAllToDoRecords(blnCompleteFlag);
             CustomAdapter adapter = new CustomAdapter(this, ToDoAllData);
             ToDoListView.setAdapter(adapter);
 
@@ -81,19 +90,28 @@ public class MainActivity extends AppCompatActivity
   }
 
     private void insertToDoRecords(){
-        for(int i=0; i<todo_Date.length; i++) {
-            ContentValues vals = new ContentValues();
-            vals.put(Constants.ToDo_DATE, todo_Date[i]);
-            vals.put(Constants.ToDo_Name, todo_Name[i]);
-            vals.put(Constants.ToDo_Description, todo_Description[i]);
-            vals.put(Constants.ToDo_Status,todo_Status.getResourceId(i, -1));
-            dbHelper.insertContentVals(Constants.ToDo_Table, vals);
+        try {
+            for(int i=0; i<todo_Date.length; i++) {
+                ContentValues vals = new ContentValues();
+                vals.put(Constants.ToDo_DATE, todo_Date[i]);
+                vals.put(Constants.ToDo_Name, todo_Name[i]);
+                vals.put(Constants.ToDo_Description, todo_Description[i]);
+                vals.put(Constants.ToDo_Status,todo_Status[i]);
+                dbHelper.insertContentVals(Constants.ToDo_Table, vals);
+            }
         }
+        catch(Exception ex)
+        {
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
+
+        }
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        this.ToDoMenu = menu;
         return true;
     }
 
@@ -110,9 +128,23 @@ public class MainActivity extends AppCompatActivity
             OpenDiaglog();
             return true;
         }
+        else if (id == R.id.action_TaskList ) {
 
-        if (id == R.id.action_TaskComplete ) {
-            Toast.makeText(this, "Task Complete", Toast.LENGTH_SHORT).show();
+            if (blnCompleteFlag)       {
+                blnCompleteFlag = false;
+                this.ToDoMenu.getItem(1).setIcon(R.drawable.complete);
+                ToDoAllData = dbHelper.getAllToDoRecords(false);
+                CustomAdapter adapter = new CustomAdapter(this, ToDoAllData);
+                ToDoListView.setAdapter(adapter);
+            }
+            else{
+                blnCompleteFlag = true;
+                this.ToDoMenu.getItem(1).setIcon(R.drawable.incomplete);
+                ToDoAllData = dbHelper.getAllToDoRecords(true);
+                CustomAdapter adapter = new CustomAdapter(this, ToDoAllData);
+                ToDoListView.setAdapter(adapter);
+            }
+
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -134,6 +166,36 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        try {
+
+            if(blnCompleteFlag){
+
+                dbHelper.deleteRecords(Constants.ToDo_Table,Constants.ToDo_ID + " = " + ToDoAllData.get(position).getToDoID(),null);
+                ToDoAllData = dbHelper.getAllToDoRecords(true);
+                CustomAdapter adapter = new CustomAdapter(this, ToDoAllData);
+                ToDoListView.setAdapter(adapter);
+                return true;
+
+            }
+            else{
+
+                ContentValues vals = new ContentValues();
+                vals.put(Constants.ToDo_Status,1);
+                dbHelper.updateRecords(Constants.ToDo_Table, vals,Constants.ToDo_ID + " = " + ToDoAllData.get(position).getToDoID(), null);
+                ToDoAllData = dbHelper.getAllToDoRecords(false);
+                CustomAdapter adapter = new CustomAdapter(this, ToDoAllData);
+                ToDoListView.setAdapter(adapter);
+                return true;
+            }
+        }
+        catch(Exception ex){
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
+        }
+        return false;
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -145,9 +207,25 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void addNewTodo(String strToDoAddName, String strToDoAddDescription) {
+        try{
 
-        Toast.makeText(this, strToDoAddName + strToDoAddDescription , Toast.LENGTH_SHORT).show();
+            ContentValues vals = new ContentValues();
+            vals.put(Constants.ToDo_DATE, "2018-05-24 10:00:00.000");
+            vals.put(Constants.ToDo_Name, strToDoAddName);
+            vals.put(Constants.ToDo_Description, strToDoAddDescription);
+            vals.put(Constants.ToDo_Status,0);
+            dbHelper.insertContentVals(Constants.ToDo_Table, vals);
 
+            blnCompleteFlag = false;
+            this.ToDoMenu.getItem(1).setIcon(R.drawable.complete);
+            ToDoAllData = dbHelper.getAllToDoRecords(false);
+            CustomAdapter adapter = new CustomAdapter(this, ToDoAllData);
+            ToDoListView.setAdapter(adapter);
+
+        }
+        catch(Exception ex){
+            Toast.makeText(this, ex.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
 

@@ -165,11 +165,20 @@ public class DBHelper {
         return a;
     }
 
-    public List<ToDoData> getAllToDoRecords() {
+
+    public List<ToDoData> getAllToDoRecords(boolean blnTaskComplete) {
         List<ToDoData> ToDoAllData = new LinkedList<ToDoData>();
 
         // select ToDo query
-        String query = "SELECT  * FROM " + Constants.ToDo_Table;
+        String query;
+        if(blnTaskComplete) {
+            query = "SELECT ToDoID,  ToDoName , ToDoDescription , date(ToDoDate), ToDoStatus FROM " + Constants.ToDo_Table + " WHERE ToDoStatus = 1 ORDER BY " + Constants.ToDo_DATE + " DESC ";
+        }
+        else{
+            query = "SELECT ToDoID,  ToDoName , ToDoDescription , date(ToDoDate), ToDoStatus FROM " + Constants.ToDo_Table + " WHERE ToDoStatus = 0 ORDER BY " + Constants.ToDo_DATE + " DESC ";
+        }
+
+
 
         // get reference of the ToDo database
         Cursor cursor = db.rawQuery(query, null);
