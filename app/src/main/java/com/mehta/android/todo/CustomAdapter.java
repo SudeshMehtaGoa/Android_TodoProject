@@ -9,31 +9,33 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mehta.android.todo.model.ToDoData;
+
 import java.util.List;
 
 public class CustomAdapter extends BaseAdapter {
 
 	Context context;
-	List<RowItem> rowItems;
+	List<ToDoData> ToDoAllRecords;
 
-	CustomAdapter(Context context, List<RowItem> rowItems) {
+	CustomAdapter(Context context, List<ToDoData> ToDoAllRecords) {
 		this.context = context;
-		this.rowItems = rowItems;
+		this.ToDoAllRecords = ToDoAllRecords;
 	}
 
 	@Override
 	public int getCount() {
-		return rowItems.size();
+		return ToDoAllRecords.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return rowItems.get(position);
+		return ToDoAllRecords.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		return rowItems.indexOf(getItem(position));
+		return ToDoAllRecords.indexOf(getItem(position));
 	}
 
 	/* private view holder class */
@@ -75,7 +77,7 @@ public class CustomAdapter extends BaseAdapter {
 
 
 
-			RowItem row_pos = rowItems.get(position);
+			ToDoData row_pos = ToDoAllRecords.get(position);
 
 
 			holder.toDoTitleDate.setText(row_pos.getToDoDate());
