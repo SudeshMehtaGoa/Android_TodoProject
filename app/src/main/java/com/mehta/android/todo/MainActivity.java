@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity
 
             int recordCount = dbHelper.getFullCount(Constants.ToDo_Table,null);
 
+            // insert dummy records on first run
             if(recordCount==0){
                 insertToDoRecords();
             }
@@ -91,6 +92,7 @@ public class MainActivity extends AppCompatActivity
         }
   }
 
+    // insert operation
     private void insertToDoRecords(){
         try {
             for(int i=0; i<todo_Date.length; i++) {
@@ -155,6 +157,8 @@ public class MainActivity extends AppCompatActivity
 
     public void OpenDiaglog() {
 
+        // Insert operation of new task
+
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -166,7 +170,10 @@ public class MainActivity extends AppCompatActivity
     public void OpenDiaglogToModify(int position) {
 
         try{
-            todoDiaglog todo_Dialog = todoDiaglog.newInstance("Updtae ToDo", ToDoAllData.get(position).getToDoID(),
+
+            // update operation of existing task
+
+            todoDiaglog todo_Dialog = todoDiaglog.newInstance("Update ToDo", ToDoAllData.get(position).getToDoID(),
                     ToDoAllData.get(position).getToDoName(),ToDoAllData.get(position).getToDoDescription(), ToDoAllData.get(position).getToDoDate());
             todo_Dialog.show(getSupportFragmentManager(),"ToDo Diaglog");
 
@@ -221,10 +228,11 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    // event raised from custom diaglog box of add/modify dialog
     @Override
     public void insertOrUpdateTodo(int intToDoID, String strToDoAddName, String strToDoAddDescription , String strToDoAddDate) {
         try{
-            Toast.makeText(this , strToDoAddDate, Toast.LENGTH_LONG).show();
+
             if(intToDoID==-1) {
                 // Add New record
                 ContentValues vals = new ContentValues();

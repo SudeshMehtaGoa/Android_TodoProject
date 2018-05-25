@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.Date;
 
+// Dialog for new tasks or to modify tasks.
 
 public class todoDiaglog extends AppCompatDialogFragment {
 
@@ -24,6 +25,7 @@ public class todoDiaglog extends AppCompatDialogFragment {
     private CalendarView editToDoDate;
     private todoDiaglogListner todoListner;
     private String strDateCalender;
+    private View view;
 
     public static todoDiaglog newInstance(String strDialogTitle, int intToDoID, String strToDoName, String strToDoDescription, String strToDoDate){
         todoDiaglog dlg = new todoDiaglog();
@@ -44,7 +46,7 @@ public class todoDiaglog extends AppCompatDialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        View view = inflater.inflate(R.layout.diaglog_newtodo,null);
+        view = inflater.inflate(R.layout.diaglog_newtodo,null);
 
         builder.setView(view)
                 .setTitle(getArguments().getString("strDialogTitle"))
@@ -59,20 +61,46 @@ public class todoDiaglog extends AppCompatDialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         String strToDoAddName = editToDoName.getText().toString();
                         String strToDoAddDescription = editTodoDescription.getText().toString();
-                        todoListner.insertOrUpdateTodo(getArguments().getInt("intToDoID"),strToDoAddName,strToDoAddDescription ,
-                                strDateCalender );
+
+                        if(strToDoAddName.length()>=5 && strToDoAddDescription.length()>=5) {
+                            todoListner.insertOrUpdateTodo(getArguments().getInt("intToDoID"), strToDoAddName, strToDoAddDescription,
+                                    strDateCalender);
+                        }
+
                     }
                 });
 
 
+        // task name edit box with validation
         editToDoName = view.findViewById(R.id.toDoAddName);
+        editToDoName.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(editToDoName.getText().length()<5){
+                    editToDoName.setError("Task Name minimum legth is 5 Characters.");
+                }
+            }
+        });
+
+        // task description edit box with validation
         editTodoDescription = view.findViewById(R.id.toDoAddDescription);
+        editTodoDescription.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(editTodoDescription.getText().length()<5){
+                    editTodoDescription.setError("Task Description minimum legth is 5 Characters.");
+                }
+            }
+        });
+
+        // calender control - using simple dateformat to convert date from string to long and vice versa
         editToDoDate = view.findViewById(R.id.toDoAddDate);
 
         editToDoDate.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                // display the selected date by using a toast
                 month=month+1;
                 strDateCalender = year + "-" + (((month < 10) ? "0" : "") + month) + "-" + (((dayOfMonth < 10) ? "0" : "") + dayOfMonth);
             }
@@ -110,6 +138,7 @@ public class todoDiaglog extends AppCompatDialogFragment {
 
     }
 
+    // listner to caller so that caller can execute db operations.
     public interface todoDiaglogListner {
 
         void insertOrUpdateTodo(int intToDoID, String strToDoAddName, String strToDoAddDescription , String strToDoAddDate);
